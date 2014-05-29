@@ -1,0 +1,15 @@
+{
+  "name": "imagetype",
+  "main": "index.js",
+  "version": "0.1.0",
+  "description": "A simple function to get the type of an image.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Ackar/node-imgtype.git"
+  },
+  "keywords": [
+    "image",
+    "type"
+  ],
+  "author": "Sylvain Cleymans <sylvain.cleymans@gmail.com>"
+}
