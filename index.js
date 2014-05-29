@@ -5,22 +5,22 @@ function checkSignature(buf, sig) {
   for (var i = 0; i < sig.length; i++)
   {
     if (sig[i] instanceof Array)
+    {
+      var ok = false;
+      for (var c in sig[i])
       {
-        var ok = false;
-        for (var c in sig[i])
-          {
-            if (c == bug[i])
-              {
-                ok = true;
-                break;
-              }
-          }
-
-          if (!ok)
-            return false;
+        if (c == bug[i])
+        {
+          ok = true;
+          break;
+        }
       }
-      else if (buf[i] != sig[i])
+
+      if (!ok)
         return false;
+    }
+    else if (buf[i] != sig[i])
+      return false;
   }
 
   return true;
