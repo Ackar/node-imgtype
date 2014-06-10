@@ -26,7 +26,7 @@ function checkSignature(buf, sig) {
   return true;
 }
 
-module.exports = function imageType(path) {
+module.exports = function imageType(path, callback) {
   var types = [
     { name: "jpeg", sig: [0xff, 0xd8, 0xff] },
     { name: "png", sig: [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A] },
@@ -36,18 +36,30 @@ module.exports = function imageType(path) {
   ];
 
   var buf = new Buffer(8);
-  var fd = fs.openSync(path, 'r');
-  var count = fs.readSync(fd, buf, 0, 8, 0);
-  fs.closeSync(fd);
+  var fd = fs.open(path, 'r', function(err, fd) {
+    if (err) {
+      callback(null);
+      return;
+    }
 
-  if (count < 8)
-    return null;
+    var count = fs.read(fd, buf, 0, 8, 0, function (err, bytesRead, buffer) {
+      fs.close(fd);
 
-  for (var i = 0; i < types.length; i++)
-  {
-    if (checkSignature(buf, types[i].sig))
-      return types[i].name;
-  }
+      if (bytesRead < 8) {
+        callback(null);
+        return;
+      }
 
-  return null;
+      for (var i = 0; i < types.length; i++)
+      {
+        if (checkSignature(buffer, types[i].sig))
+        {
+          callback(types[i].name);
+          return;
+        }
+      }
+
+      callback(null);
+    });
+  });
 };
