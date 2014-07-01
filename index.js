@@ -26,7 +26,7 @@ function checkSignature(buf, sig) {
   return true;
 }
 
-module.exports = function imageType(path, callback) {
+module.exports = function(path, callback) {
   var types = [
     { name: "jpeg", sig: [0xff, 0xd8, 0xff] },
     { name: "png", sig: [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A] },
