@@ -2,25 +2,22 @@ var fs = require('fs');
 var Buffer = require('buffer').Buffer;
 
 function checkSignature(buf, sig) {
-  for (var i = 0; i < sig.length; i++)
-  {
-    if (sig[i] instanceof Array)
-    {
+  for (var i = 0; i < sig.length; i++) {
+    if (sig[i] instanceof Array) {
       var ok = false;
-      for (var c in sig[i])
-      {
-        if (c == bug[i])
-        {
+      for (var c in sig[i]) {
+        if (c == buf[i]) {
           ok = true;
           break;
         }
       }
 
-      if (!ok)
+      if (!ok) {
         return false;
-    }
-    else if (buf[i] != sig[i])
+      }
+    } else if (buf[i] != sig[i]) {
       return false;
+    }
   }
 
   return true;
@@ -50,10 +47,8 @@ module.exports = function(path, callback) {
         return;
       }
 
-      for (var i = 0; i < types.length; i++)
-      {
-        if (checkSignature(buffer, types[i].sig))
-        {
+      for (var i = 0; i < types.length; i++) {
+        if (checkSignature(buffer, types[i].sig)) {
           callback(types[i].name);
           return;
         }
