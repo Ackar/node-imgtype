@@ -4,13 +4,13 @@ var Buffer = require('buffer').Buffer;
 function checkSignature(buf, sig) {
   for (var i = 0; i < sig.length; i++) {
     if (sig[i] instanceof Array) {
-      var ok = false;
-      for (var c in sig[i]) {
+      var ok = sig[i].some(function(c) {
         if (c == buf[i]) {
-          ok = true;
-          break;
+          return true;
+        } else {
+          return false;
         }
-      }
+      });
 
       if (!ok) {
         return false;
